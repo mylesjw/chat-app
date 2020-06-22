@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  console.log(req.body)
   const { contents, date, userId, channelId } = req.body;
   new Message({
     contents,
@@ -23,7 +22,6 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Message.find({channelId: req.params.id})
           .then(data => res.json(data))
-  console.log(req.params.id)
 })
 
 export default router;

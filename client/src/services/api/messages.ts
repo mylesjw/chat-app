@@ -1,5 +1,5 @@
-export default function sendMessage(contents, date, userId, channelId) : void {
-  fetch('/api/messages', {
+export function sendMessage(contents, date, userId, channelId) {
+  return fetch('/api/messages', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -10,5 +10,11 @@ export default function sendMessage(contents, date, userId, channelId) : void {
       userId,
       channelId
     })
-  }).then((res) => console.log(res))
+  })
 }
+
+export function getMessages(id?: String) {
+  return fetch(`/api/messages/${id ? id : ''}`)
+    .then(data => data.json())
+}
+

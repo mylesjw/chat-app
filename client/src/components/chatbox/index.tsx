@@ -4,8 +4,9 @@ import React,
   useState,
   FunctionComponent,
 } from 'react';
-import sendMessage from "../../services/api/messages";
-
+import {sendMessage, getMessages} from "../../services/api/messages";
+import {getChannels, createChannel} from "../../services/api/channels";
+import createChannelSocket from "../../services/sockets/index";
 import {
   Container,
   ChannelContainer,
@@ -18,11 +19,8 @@ import {
   AddChannelButton
 } from './styles'
 
-interface chatboxProps {
-  socket: SocketIOClient.Socket
-}
 
-const Chatbox: FunctionComponent<chatboxProps> = (props:chatboxProps) =>  {
+const Chatbox: FunctionComponent = ()=>  {
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -31,31 +29,34 @@ const Chatbox: FunctionComponent<chatboxProps> = (props:chatboxProps) =>  {
   const [currentChannel, setCurrentChannel] = useState({
     name: "",
     _id: ""
-  })
+  });
+  const [socket, setSocket] = useState<SocketIOClient.Socket>();
 
   useEffect(() => {
-    props.socket.on('chat message', (msg) => {
-      console.log(msg);
-      setIncomingMessage(msg);
-    });
-    fetch('/api/channels')
-      .then((data) => data.json())
+    getChannels()
       .then(data => {
         setChannels(data);
         setCurrentChannel(data[0]);
       });
-    fetch('/api/messages').then(res => res.json()).then(data => {
-      console.log(data)
-      setMessages(data.map(item => item.contents));
-    });
   }, []);
 
   useEffect(() => {
-    fetch(`/api/messages/${currentChannel._id}`).then(data => data.json())
+    if(socket) socket.close();
+    setSocket(createChannelSocket(currentChannel.name))
+    getMessages(currentChannel._id)
       .then(data => {
         setMessages(data.map(x => x.contents))
       })
-  }, [currentChannel])
+  }, [currentChannel]);
+
+  useEffect(() => {
+    if(socket) {
+      socket.on('chat message', (msg) => {
+        console.log(msg);
+        setIncomingMessage(msg);
+      })
+    };
+  }, [socket])
 
   useEffect(() => {
     if(incomingMessage) {
@@ -67,7 +68,7 @@ const Chatbox: FunctionComponent<chatboxProps> = (props:chatboxProps) =>  {
   const onMessageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const date = new Date();
-    props.socket.emit('chat message', message);
+    socket.emit('chat message', message);
     sendMessage(message, date, "1", currentChannel._id);
     setMessage('');
   }
@@ -75,15 +76,7 @@ const Chatbox: FunctionComponent<chatboxProps> = (props:chatboxProps) =>  {
   const onNewChannel = () => {
     const channelName = prompt("Enter name of new Channel");
     if(channelName) {
-      fetch('/api/channels', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: channelName
-        })
-      })
+      createChannel(channelName);
     }
   }
 

@@ -1,51 +1,13 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
-  max-width: 800px;
-  height: 600px;
-  margin: 20px auto 0 auto;
-  display: flex;
-  border: 1px solid rgba(55, 0, 179, 0.5);
-`;
-
-const ChannelContainer = styled.div`
-  flex-basis: 20%;
-  height: 100%;
-  border-right: 1px solid rgba(55, 0, 179, 0.5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const AddChannelButton = styled.div`
-  border-radius: 50%;
-  background-color: rgba(55, 0, 179, 0.5);
-  height: 40px;
-  width: 40px;
-  margin-top: auto;
-  text-align: center;
-  cursor: pointer;
-  
-  span {
-    font-size: 24px;
-    margin-top: 5px;
-    display: block;
-  }
-`;
-
-const ChannelItem = styled.div`
-  padding: 12px 8px;
-  cursor: pointer;
-`;
-
-const ChatContainer = styled.div`
+export const ChatContainer = styled.div`
   flex-basis: 80%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 `;
 
-const MessageBox = styled.div`
+export const ChatBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -61,7 +23,7 @@ const MessageBox = styled.div`
   }
 `;
 
-const MessageInput = styled.div`
+export const MessageInput = styled.div`
   flex-basis: 60px;
   position: relative;
   bottom: 0;
@@ -69,7 +31,7 @@ const MessageInput = styled.div`
   height: 100%;
 `;
 
-const MessageForm = styled.form`
+export const MessageForm = styled.form`
   display: flex;
   max-width: 100%;
   padding: 0 20px;
@@ -99,7 +61,7 @@ const MessageForm = styled.form`
   }
 `;
 
-const MessageItem = styled.li`
+export const MessageItem = styled.li`
   align-self: stretch;
   padding: 10px 20px;
   
@@ -110,15 +72,3 @@ const MessageItem = styled.li`
     background-color: #03DAC6;
   }
 `;
-
-export {
-  Container,
-  ChannelContainer,
-  ChatContainer,
-  MessageInput,
-  MessageBox,
-  MessageForm,
-  MessageItem,
-  ChannelItem,
-  AddChannelButton
-}
