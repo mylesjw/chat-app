@@ -22,8 +22,12 @@ const ChatBoxContainer: FunctionComponent = () => {
   useEffect(() => {
     getChannels()
       .then(data => {
-        setChannels(data.map(x => ({name: x.name, id: x._id})));
-        setCurrentChannel(data[0]);
+        const newData = data.map(x => ({
+          name: x.name,
+          id: x._id
+        }))
+        setChannels(newData);
+        setCurrentChannel(newData[0]);
       })
   }, []);
 

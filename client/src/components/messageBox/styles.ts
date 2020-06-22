@@ -29,12 +29,16 @@ export const MessageInput = styled.div`
   bottom: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const MessageForm = styled.form`
   display: flex;
   max-width: 100%;
   padding: 0 20px;
+  flex-basis: 100%;
   
   input[type=text] {
     flex-basis: 90%;

@@ -1,5 +1,12 @@
 import mongoose from 'mongoose';
 
+interface IMessageSchema extends mongoose.Document {
+  contents: string,
+  date: Date,
+  userId: string,
+  channelId: string
+}
+
 const MessageSchema = new mongoose.Schema({
   contents: {
     type: String,
@@ -19,4 +26,4 @@ const MessageSchema = new mongoose.Schema({
   }
 });
 
-export default mongoose.model('messages', MessageSchema)
+export default mongoose.model<IMessageSchema>('messages', MessageSchema)

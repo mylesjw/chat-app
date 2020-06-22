@@ -11,13 +11,10 @@ interface IMessage {
 
 export default function initSockets(server: any) {
   const io = SocketIO(server, {
-    wsEngine: 'ws',
     path: '/channels'
   });
-  console.log(io)
   return Channel.find().then(channels => {
       return channels.map(channel => {
-        // @ts-ignore
         initChannel(channel.name, io);
       });
   })
