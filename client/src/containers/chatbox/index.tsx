@@ -1,12 +1,12 @@
 import React, {useEffect, useState, FunctionComponent} from 'react';
 import Channel from "../../components/channels/index";
 import MessageBox from "../../components/messageBox/index";
-import {getChannels, createChannel} from "../../services/api/channels";
+import {getChannels} from "../../services/api/channels";
+import createChannelSocket from "../../services/sockets/index";
 
 import {
   Container
 } from './styles'
-import createChannelSocket from "../../services/sockets/index";
 
 interface IChannel {
   name: string,
@@ -32,7 +32,14 @@ const ChatBoxContainer: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    console.log(currentChannel)
+    if(socket) {
+      socket.on('new channel', (channel) => {
+        setChannels([...channels, channel]);
+      });
+    }
+  }, [socket])
+
+  useEffect(() => {
     if(socket) socket.close();
     setSocket(createChannelSocket(currentChannel?.name));
   }, [currentChannel]);
@@ -44,7 +51,7 @@ const ChatBoxContainer: FunctionComponent = () => {
   const onNewChannel = () => {
     const channelName = prompt("Enter name of new Channel");
     if(channelName) {
-      createChannel(name);
+      socket.emit('new channel', channelName);
     }
   }
 
@@ -55,6 +62,8 @@ const ChatBoxContainer: FunctionComponent = () => {
         onChannelClick={onChannelClick}
         onNewChannel={onNewChannel}
         channels={channels}
+        currentChannel={currentChannel}
+        socket={socket}
       />
       <MessageBox socket={socket} channelId={currentChannel?.id} />
     </Container>

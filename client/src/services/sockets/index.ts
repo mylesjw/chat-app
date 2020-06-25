@@ -1,10 +1,8 @@
 import io from "socket.io-client";
 
 export default function createChannelSocket(channel) {
-  const socket = io.connect(`http://localhost:5000/${channel}`, {
+  return io.connect(`http://localhost:5000/${encodeURIComponent(channel)}`, {
     path: `/channels`,
     forceNew: true
   });
-
-  return socket;
 }

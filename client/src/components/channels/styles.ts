@@ -6,7 +6,7 @@ export const ChannelContainer = styled.div`
   border-right: 1px solid rgba(55, 0, 179, 0.5);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 `;
 
 export const AddChannelButton = styled.div`
@@ -17,6 +17,7 @@ export const AddChannelButton = styled.div`
   margin-top: auto;
   text-align: center;
   cursor: pointer;
+  align-self: center;
   
   span {
     font-size: 24px;
@@ -25,7 +26,19 @@ export const AddChannelButton = styled.div`
   }
 `;
 
-export const ChannelItem = styled.div`
+export const ChannelItem = styled.div<IChannelItem>`
   padding: 12px 8px;
+  background-color: ${props => props.isActive 
+    ? '#3700B3' : '#6200EE'};
   cursor: pointer;
+  text-align: center;
+  color: #ffffff;
+  
+  &:hover {
+    background-color: #3700B3;
+  }
 `;
+
+interface IChannelItem {
+  isActive: boolean
+}

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import Message from "./models/Message";
 
 export default function initiateDB() {
   return createConnection()
@@ -8,7 +7,8 @@ export default function initiateDB() {
 function createConnection() {
   return (
     mongoose.connect('mongodb://127.0.0.1:27017/chatapp', {
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     })
   );
 }

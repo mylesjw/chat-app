@@ -7,7 +7,7 @@ import {
   MessageInput,
   MessageItem
 } from './styles'
-import {getMessages, sendMessage} from "../../services/api/messages";
+import {getMessages} from "../../services/api/messages";
 
 interface IMessageBoxProps {
   socket: SocketIOClient.Socket,
@@ -46,14 +46,12 @@ const MessageBox: FunctionComponent<IMessageBoxProps> = (props: IMessageBoxProps
 
   const onMessageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const date = new Date();
     props.socket.emit('chat message', {
       contents: newMessage,
-      date,
+      date: new Date(),
       userId: "1",
       channelId: props.channelId
     });
-    //sendMessage(newMessage, date, "1", props.channelId);
     setNewMessage("");
   }
 
