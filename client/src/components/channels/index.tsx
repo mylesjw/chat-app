@@ -1,4 +1,4 @@
-import React, {useEffect, useState, FunctionComponent, MouseEvent} from 'react';
+import React, {FunctionComponent} from 'react';
 import {
   ChannelContainer,
   AddChannelButton,
@@ -13,14 +13,15 @@ interface IChannel {
 interface IChannelProps {
   channels: Array<IChannel>,
   onChannelClick: (channel: IChannel) => void,
-  onNewChannel: (event: MouseEvent<HTMLDivElement>) => void
+  onNewChannel: (event: React.MouseEvent<HTMLDivElement>) => void,
+  currentChannel: IChannel,
 }
 
 const Channel: FunctionComponent<IChannelProps> = (props: IChannelProps) => {
   return (
     <ChannelContainer>
       {props.channels && props.channels.map(channel => (
-        <ChannelItem onClick={(e: MouseEvent<HTMLDivElement>) =>{
+        <ChannelItem isActive={props.currentChannel?.id == channel.id} onClick={(e: React.MouseEvent<HTMLDivElement>) =>{
           e.preventDefault();
           props.onChannelClick(channel);
         }}>

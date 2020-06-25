@@ -5,6 +5,12 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   mode: "production",
   entry: './src/index.tsx',
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      parallel: 4
+    })]
+  },
   module: {
     rules: [
       {
@@ -40,6 +46,5 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    new TerserPlugin()
   ]
 }
