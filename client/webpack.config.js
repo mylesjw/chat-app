@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  mode: "production",
+  mode: process.env.NODE_ENV || "development",
   entry: './src/index.tsx',
   optimization: {
     minimize: true,

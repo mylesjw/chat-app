@@ -48,22 +48,18 @@ const ChatBoxContainer: FunctionComponent = () => {
     if(currentChannel.id != channel.id) setCurrentChannel(channel);
   }
 
-  const onNewChannel = () => {
-    const channelName = prompt("Enter name of new Channel");
-    if(channelName) {
-      socket.emit('new channel', channelName);
-    }
+  const createChannel = (channelName: string) => {
+    if(channelName) socket.emit('new channel', channelName);
   }
 
 
   return (
     <Container>
       <Channel
+        createChannel={createChannel}
         onChannelClick={onChannelClick}
-        onNewChannel={onNewChannel}
         channels={channels}
         currentChannel={currentChannel}
-        socket={socket}
       />
       <MessageBox socket={socket} channelId={currentChannel?.id} />
     </Container>
